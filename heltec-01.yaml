@@ -1,0 +1,65 @@
+esphome:
+  name: heltec-01
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Heltec-01 Fallback Hotspot"
+    password: !secret wifi_ap_password
+
+captive_portal:
+
+binary_sensor:
+  - platform: gpio
+    name: "Living Room Window"
+    pin:
+      number: 16
+      inverted: false
+      mode:
+        input: true
+        pullup: true
+
+# i2c config
+i2c:
+  - id: bus_a
+    sda: 17
+    scl: 18
+  - id: bus_b
+    sda: 41
+    scl: 42
+
+spi:
+  clk_pin: 12
+  mosi_pin: 11
+  miso_pin: 13
+
+display:
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    reset_pin: 21
+    i2c_id: bus_a
+    address: 0x3C
+    lambda: |-
+      it.line(0, 0, 50, 50);
+      it.filled_rectangle(50, 0, 30, 42);
+
+# it.print(0, 0, id(font), "Hello World!");

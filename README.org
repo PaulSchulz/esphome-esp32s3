@@ -1,0 +1,44 @@
+#+TITLE: ESPHome examples for the Heltec Wifi LoRa 32 V3 Board
+
+* Introduction
+The Heltec Wifi LoRa 32 V3 is based on the esp32s3 chip, with an additional LoRa
+radio chip.
+
+With an base ESPHome image installed on the board, which has wifi enabled, it is
+possible to do further upgrades using Over-the-Air (OTA) updates using the
+*esphome* tool, from the Linux command line.
+
+The notes here refer to a ESPHome programming system installed on a Ubuntu
+laptop. Among other platforms, it is also possible to use the ESPHome system
+installed as a plugin in a Home Assistant installation on RasberryPi (just
+little slower).
+
+** Secrets
+Passwords and Secrets (wiki logins etc.) are stored in a separate file
+(secrets.yaml) which isn't stored in this repository (via .gitignore).
+
+This file needs to be created, and populated separately.
+
+#+NAME: secret.yaml
+#+begin_src yaml
+  # Your Wi-Fi SSID and password
+  wifi_ssid: ""
+  wifi_password: ""
+
+  # Fallback Access Point Configuration Password
+  wifi_ap_password: ""
+
+  # API Key, used for accessing Home Assistant
+  api_encryption_key: ""
+
+  # Over-the-air update key
+  ota_password: ""
+#+end_src
+
+* Examples
+** simple-esphome-esp32s3.yaml
+Simple example
+
+** heltec.yaml
+Example using more hardware specific options.
+- Screen drawing enabled
