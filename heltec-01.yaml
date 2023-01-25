@@ -52,6 +52,17 @@ spi:
   mosi_pin: 11
   miso_pin: 13
 
+# Status. Will flash while configuring Wifi
+light:
+  - platform: status_led
+    name: "Switch state"
+    pin: 35
+
+font:
+  - file: "gfonts://Ubuntu"
+    id: sysfont
+    size: 10
+
 display:
   - platform: ssd1306_i2c
     model: "SSD1306 128x64"
@@ -59,7 +70,9 @@ display:
     i2c_id: bus_a
     address: 0x3C
     lambda: |-
-      it.line(0, 0, 50, 50);
-      it.filled_rectangle(50, 0, 30, 42);
-
-# it.print(0, 0, id(font), "Hello World!");
+      it.fill(COLOR_ON);
+      it.fill(COLOR_OFF);
+      it.print(0,  0, id(sysfont), "Startup...");
+      it.print(0, 10, id(sysfont), "Connecting to Wifi");
+      it.print(0, 20, id(sysfont), "");
+      it.print(0, 30, id(sysfont), "");
