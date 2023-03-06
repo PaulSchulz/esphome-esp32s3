@@ -1,6 +1,22 @@
 #+TITLE: ESPHome examples for the Heltec Wifi LoRa 32 V3 Board
 
+* Contents :TOC:
+- [[#introduction][Introduction]]
+  - [[#secrets][Secrets]]
+  - [[#status][Status]]
+- [[#process][Process]]
+  - [[#install-tools-and-configure-the-environment][Install Tools and Configure the Environment]]
+  - [[#create-configuration-file-yaml][Create Configuration File (yaml)]]
+  - [[#compile-image][Compile Image]]
+  - [[#install-image][Install Image]]
+  - [[#view-logs][View Logs]]
+- [[#useful-links][Useful Links]]
+- [[#examples][Examples]]
+  - [[#simple-esphome-esp32s3yaml][simple-esphome-esp32s3.yaml]]
+  - [[#heltecyaml][heltec.yaml]]
+
 * Introduction
+
 The Heltec Wifi LoRa 32 V3 is based on the esp32s3 chip, with an additional LoRa
 radio chip.
 
@@ -35,6 +51,18 @@ This file needs to be created, and populated separately.
   ota_password: ""
 #+end_src
 
+** Status
+#+begin_src html
+  <table>
+    <tr><th>Issue</th><th>Status</th><th>Notes</th></tr>
+    <tr>
+      <td>Support in 'esphome wizard'</td>
+      <td></td>
+      <td>Missing Heltec V3 boards.</td>
+    </tr>
+  </table>
+#+end_src
+
 * Process
 See: https://esphome.io/guides/installing_esphome.html#linux
 
@@ -63,6 +91,11 @@ Install esphome with
 #+begin_src shell
   pip3 install esphome
 #+end_src
+*NOTE:* Over time, additional python dependencies will need to be installed. This
+may happen automatically, but can also be done manually with 'pip install'. With
+the virtual Python environment configured as above (look for the "(venv)" in the
+command line prompt) additional python libraries will be installed in the
+'venv/lib/python' subdirectory.
 
 Once the installation is completed, check that esphome has been installed
 correctly with the following.
@@ -77,7 +110,7 @@ correctly with the following.
 #+end_src
 
 *ISSUE:* It appears as though the 'heltec-wifi-lora-32-v3' and
-'esp32-s3-devkitc-1' arn't supported in the wizard.
+'esp32-s3-devkitc-1' arn't yet supported in the wizard.
 
 *** Manually Create Configuration
 
@@ -90,6 +123,12 @@ correctly with the following.
 Initial install via USB
 #+begin_src shell
   esphome upload --device /dev/ttyUSB0 heltec-wifi-lora-32-v3.yaml
+#+end_src
+
+** View Logs
+The logging from the device can be viewed over the USB serial connection with the following command:
+#+begin_src shell
+  esphome
 #+end_src
 
 * Useful Links
