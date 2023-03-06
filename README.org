@@ -35,6 +35,65 @@ This file needs to be created, and populated separately.
   ota_password: ""
 #+end_src
 
+* Process
+See: https://esphome.io/guides/installing_esphome.html#linux
+
+** Install Tools and Configure the Environment
+None of the following needs to be done with elevated privileges (eg, sudo)
+
+Checkout this repository
+#+begin_src shell
+    git clone https://github.com/PaulSchulz/esphome-esp32s3.git
+#+end_src
+
+Check that correct version of python3 is available. Works with 3.10.7.
+#+begin_src shell
+  python3 --version
+#+end_src
+
+Setup the python environment
+#+begin_src shell
+  python3 -m venv venv
+  source venv/bin/activate
+#+end_src
+
+Run the 'source venv/bin/activate' command to re-enter the environment.
+
+Install esphome with
+#+begin_src shell
+  pip3 install esphome
+#+end_src
+
+Once the installation is completed, check that esphome has been installed
+correctly with the following.
+#+begin_src shell
+  esphome version
+#+end_src
+
+** Create Configuration File (yaml)
+*** Configuration Wizard
+#+begin_src shell
+  esphome wizard basic.yaml
+#+end_src
+
+*ISSUE:* It appears as though the 'heltec-wifi-lora-32-v3' and
+'esp32-s3-devkitc-1' arn't supported in the wizard.
+
+*** Manually Create Configuration
+
+** Compile Image
+#+begin_src shell
+  esphome compile heltec-wifi-lora-32-v3.yaml
+#+end_src
+
+** Install Image
+Initial install via USB
+#+begin_src shell
+  esphome upload --device /dev/ttyUSB0 heltec-wifi-lora-32-v3.yaml
+#+end_src
+
+* Useful Links
+
 * Examples
 ** simple-esphome-esp32s3.yaml
 Simple example

@@ -53,10 +53,34 @@ spi:
   miso_pin: 13
 
 # Status. Will flash while configuring Wifi
-light:
-  - platform: status_led
-    name: "Switch state"
-    pin: 35
+#light:
+#  - platform: status_led
+#    name: "Switch state"
+#    pin: 35
+
+time:
+  - platform: homeassistant
+    id: esptime
+
+# Get and display data from Home Assistant
+sensor:
+  - platform: homeassistant
+    name: "NEM SA Price"
+    id: nem_sa_price
+    entity_id: sensor.nem_sa_price
+    internal: true
+
+  - platform: homeassistant
+    name: "NEM SA Demand"
+    id: nem_sa_demand
+    entity_id: sensor.nem_sa_demand
+    internal: true
+
+  - platform: homeassistant
+    name: "NEM SA Import"
+    id: nem_sa_import
+    entity_id: sensor.nem_sa_import
+    internal: true
 
 font:
   - file: "gfonts://Ubuntu"
@@ -72,7 +96,9 @@ display:
     lambda: |-
       it.fill(COLOR_ON);
       it.fill(COLOR_OFF);
-      it.print(0,  0, id(sysfont), "Startup...");
-      it.print(0, 10, id(sysfont), "Connecting to Wifi");
-      it.print(0, 20, id(sysfont), "");
-      it.print(0, 30, id(sysfont), "");
+      it.print(0, 0, id(sysfont), "NEM SA ");
+      it.printf(0, 10, id(sysfont), "Price: %.1f Dollars/MWh", id(nem_sa_price).state);
+      it.printf(0, 20, id(sysfont), "Demand: %.1f MW", id(nem_sa_demand).state);
+      it.printf(0, 30, id(sysfont), "Import: %.1f MW", id(nem_sa_import).state);
+      // Print time in HH:MM format
+      it.strftime(0, 60, id(sysfont), TextAlign::BASELINE_LEFT, "%H:%M", id(esptime).now());
