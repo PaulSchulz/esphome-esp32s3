@@ -84,11 +84,14 @@ Install esphome with
 #+begin_src shell
   pip3 install esphome
 #+end_src
-*NOTE:* Over time, additional python dependencies will need to be installed. This
-may happen automatically, but can also be done manually with 'pip install'. With
-the virtual Python environment configured as above (look for the "(venv)" in the
+
+#+begin_note
+Over time, additional python dependencies will need to be installed. This may
+happen automatically, but can also be done manually with 'pip install'. With the
+virtual Python environment configured as above (look for the "(venv)" in the
 command line prompt) additional python libraries will be installed in the
 'venv/lib/python' subdirectory.
+#+end_note
 
 Once the installation is completed, check that esphome has been installed
 correctly with the following.
