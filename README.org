@@ -1,20 +1,5 @@
 #+TITLE: ESPHome examples for the Heltec Wifi LoRa 32 V3 Board
 
-* Contents :TOC:
-- [[#introduction][Introduction]]
-  - [[#secrets][Secrets]]
-  - [[#status][Status]]
-- [[#process][Process]]
-  - [[#install-tools-and-configure-the-environment][Install Tools and Configure the Environment]]
-  - [[#create-configuration-file-yaml][Create Configuration File (yaml)]]
-  - [[#compile-image][Compile Image]]
-  - [[#install-image][Install Image]]
-  - [[#view-logs][View Logs]]
-- [[#useful-links][Useful Links]]
-- [[#examples][Examples]]
-  - [[#simple-esphome-esp32s3yaml][simple-esphome-esp32s3.yaml]]
-  - [[#heltecyaml][heltec.yaml]]
-
 * Introduction
 
 The Heltec Wifi LoRa 32 V3 is based on the esp32s3 chip, with an additional LoRa
@@ -25,13 +10,14 @@ possible to do further upgrades using Over-the-Air (OTA) updates using the
 *esphome* tool, from the Linux command line.
 
 The notes here refer to a ESPHome programming system installed on a Ubuntu
-laptop. Among other platforms, it is also possible to use the ESPHome system
-installed as a plugin in a Home Assistant installation on RasberryPi (just
+laptop (Version 22.04). It is also possible to use the ESPHome system installed
+as a plugin in a Home Assistant installation on RasberryPi (compilation is just
 little slower).
 
 ** Secrets
-Passwords and Secrets (wiki logins etc.) are stored in a separate file
-(secrets.yaml) which isn't stored in this repository (via .gitignore).
+Passwords and Secrets (wifi and access point logins etc.) are stored in a
+separate file (secrets.yaml) which isn't stored in this repository (via
+.gitignore).
 
 This file needs to be created, and populated separately.
 
@@ -52,9 +38,9 @@ This file needs to be created, and populated separately.
 #+end_src
 
 ** Status
-| Issue                       | Status | Notes                     |
-|-----------------------------+--------+---------------------------|
-| Support in 'esphome wizard' |        | Missing Heltec V3 boards. |
+| Issue                       | Status  | Notes             |
+|-----------------------------+---------+-------------------|
+| Support in 'esphome wizard' | MISSING | Heltec V3 boards. |
 
 * Process
 See: https://esphome.io/guides/installing_esphome.html#linux
@@ -85,13 +71,11 @@ Install esphome with
   pip3 install esphome
 #+end_src
 
-#+begin_note
-Over time, additional python dependencies will need to be installed. This may
+*NOTE:* Over time, additional python dependencies will need to be installed. This may
 happen automatically, but can also be done manually with 'pip install'. With the
 virtual Python environment configured as above (look for the "(venv)" in the
 command line prompt) additional python libraries will be installed in the
 'venv/lib/python' subdirectory.
-#+end_note
 
 Once the installation is completed, check that esphome has been installed
 correctly with the following.
@@ -122,12 +106,22 @@ Initial install via USB
 #+end_src
 
 ** View Logs
-The logging from the device can be viewed over the USB serial connection with the following command:
+The logging from the device can be viewed over the USB serial connection when
+connected with the following command:
+
 #+begin_src shell
-  esphome
+  esphome logs --device /dev/ttyUSB0
 #+end_src
 
+* Development
+When creating the development environment as described above, the code for
+'esphome' (development tool) and 'esptool' (device programmer) are installed via
+pip in the 'venv/lib/python*' subdirectories.
+
+For custom development 
+
 * Useful Links
+
 
 * Examples
 ** simple-esphome-esp32s3.yaml
@@ -136,3 +130,28 @@ Simple example
 ** heltec.yaml
 Example using more hardware specific options.
 - Screen drawing enabled
+
+** custom.yaml
+This is a minimal custom build which responds in the logs with a 10s tick.
+
+Files:
+- custom.yaml
+- my_custom_component.h
+
+To build and install over a serial connection.
+#+begin_src shell
+  esphome run --device /def/ttyUSB0 custom.yaml
+#+end_src
+
+** custom_lora.yaml
+This components sets up a ping/pong message exchange between two Heltec WiFo
+LoRa 32 (V3) devices.
+
+Files:
+- custom_lora.yaml
+- my_lora_component.h
+  
+To build and install over a serial connection.
+#+begin_src shell
+  esphome run --device /def/ttyUSB0 custom_lora.yaml
+#+end_src
