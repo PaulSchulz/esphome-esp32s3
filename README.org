@@ -3,7 +3,7 @@
 * Contents                                                                 :TOC:
 - [[#introduction][Introduction]]
   - [[#secrets][Secrets]]
-  - [[#status][Status]]
+  - [[#issue-status][Issue Status]]
 - [[#process][Process]]
   - [[#install-tools-and-configure-the-environment][Install Tools and Configure the Environment]]
   - [[#create-configuration-file-yaml][Create Configuration File (yaml)]]
@@ -55,7 +55,7 @@ This file needs to be created, and populated separately.
   ota_password: ""
 #+end_src
 
-** Status
+** Issue Status
 | Issue                       | Status  | Notes             |
 |-----------------------------+---------+-------------------|
 | Support in 'esphome wizard' | MISSING | Heltec V3 boards. |
@@ -64,7 +64,7 @@ This file needs to be created, and populated separately.
 See: https://esphome.io/guides/installing_esphome.html#linux
 
 ** Install Tools and Configure the Environment
-None of the following needs to be done with elevated privileges (eg, sudo)
+*Note:* None of the following should be done with elevated privileges (eg, sudo)
 
 Checkout this repository
 #+begin_src shell
@@ -133,13 +133,13 @@ connected with the following command:
 
 * Development
 When creating the development environment as described above, the code for
-'esphome' (development tool) and 'esptool' (device programmer) are installed via
-pip in the 'venv/lib/python*' subdirectories.
+'esphome' (the development tool) and 'esptool' (the device programmer) are
+installed via pip in the 'venv/lib/python*' subdirectories.
 
 For custom development 
 
 * Useful Links
-
+- ESPHome Customised Components :: https://esphome.io/custom/custom_component.html
 
 * Examples
 ** simple-esphome-esp32s3.yaml
