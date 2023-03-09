@@ -270,7 +270,7 @@ public:
         // Define the HW configuration between MCU and SX126x
         hwConfig.CHIP_TYPE = SX1262_CHIP;		  // Example uses an eByte E22 module with an SX1262
         hwConfig.PIN_LORA_RESET = PIN_LORA_RESET; // LORA RESET
-        hwConfig.PIN_LORA_NSS = PIN_LORA_NSS;	 // LORA SPI CS
+        hwConfig.PIN_LORA_NSS = PIN_LORA_NSS;	  // LORA SPI CS
         hwConfig.PIN_LORA_SCLK = PIN_LORA_SCLK;   // LORA SPI CLK
         hwConfig.PIN_LORA_MISO = PIN_LORA_MISO;   // LORA SPI MISO
         hwConfig.PIN_LORA_DIO_1 = PIN_LORA_DIO_1; // LORA DIO_1
@@ -280,7 +280,7 @@ public:
         hwConfig.RADIO_RXEN = RADIO_RXEN;		  // LORA ANTENNA RX ENABLE
         hwConfig.USE_DIO2_ANT_SWITCH = true;	  // Example uses an CircuitRocks Alora RFM1262 which uses DIO2 pins as antenna control
         hwConfig.USE_DIO3_TCXO = true;			  // Example uses an CircuitRocks Alora RFM1262 which uses DIO3 to control oscillator voltage
-        hwConfig.USE_DIO3_ANT_SWITCH = false;	 // Only Insight ISP4520 module uses DIO3 as antenna control
+        hwConfig.USE_DIO3_ANT_SWITCH = false;	  // Only Insight ISP4520 module uses DIO3 as antenna control
 
         ESP_LOGD("custom", "SX126x PingPong test");
 

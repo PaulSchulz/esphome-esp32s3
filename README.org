@@ -17,6 +17,7 @@
   - [[#heltecyaml][heltec.yaml]]
   - [[#customyaml][custom.yaml]]
   - [[#custom_lorayaml][custom_lora.yaml]]
+  - [[#custom_lorawanyaml][custom_lorawan.yaml]]
 
 * Introduction
 
@@ -140,7 +141,8 @@ For custom development
 
 * Useful Links
 - ESPHome Customised Components :: https://esphome.io/custom/custom_component.html
-
+- Custome Component Examples :: https://github.com/thegroove/esphome-custom-component-examples
+  
 * Examples
 ** simple-esphome-esp32s3.yaml
 Simple example
@@ -173,3 +175,19 @@ To build and install over a serial connection.
 #+begin_src shell
   esphome run --device /def/ttyUSB0 custom_lora.yaml
 #+end_src
+
+** custom_lorawan.yaml
+This components sets up a Heltec Wifi LoRa 32(V3) board as a device on a LoRaWAN
+network. Credentials for the device are set in 'lorawan_secrets.h'.
+
+Files:
+- custom_lorawan.yaml
+- my_lorawan_component.h
+- lorawan_secrets.h
+  
+To build and install over a serial connection, edit 'lorawan_secrets.h' and add
+the devices cLoRaWAN credentials, then run the following to compile and install.
+#+begin_src shell
+  esphome run --device /def/ttyUSB0 custom_lorawan.yaml
+#+end_src
+
