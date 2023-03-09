@@ -35,10 +35,7 @@ little slower).
 
 ** Secrets
 Passwords and Secrets (wifi and access point logins etc.) are stored in a
-separate file (secrets.yaml) which isn't stored in this repository (via
-.gitignore).
-
-This file needs to be created, and populated separately.
+separate file (secrets.yaml) which only has a template stored in this repository.
 
 #+NAME: secret.yaml
 #+begin_src yaml
@@ -55,6 +52,9 @@ This file needs to be created, and populated separately.
   # Over-the-air update key
   ota_password: ""
 #+end_src
+
+There is a separate file in use for LoRaWAN credentials (lorawan_secrets.h)
+which is being treated in a similar way.
 
 ** Issue Status
 | Issue                       | Status  | Notes             |
