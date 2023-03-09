@@ -5,6 +5,7 @@
 //#include <SX126x-Arduino.h>
 #include <LoRaWan-Arduino.h>
 #include <SPI.h>
+#include <CayenneLPP.h>
 
 #include "lorawan_secrets.h"
 
@@ -20,6 +21,7 @@
 
 bool doOTAA = true;
 hw_config hwConfig;
+CayenneLPP lpp(51);
 
 // Heltec Wifi LoRa 32 (V3) - SX126x pin configuration
 int PIN_LORA_RESET = 12;  // LORA RESET
@@ -264,47 +266,36 @@ static void send_lora_frame(void)
 	}
 
 	// Building the message to send
+    lpp.reset();
 
-	char t100 = (char)(chipTemp / 100);
-	char t10 = (char)((chipTemp - (t100 * 100)) / 10);
-	char t1 = (char)((chipTemp - (t100 * 100) - (t10 * 10)) / 1);
+    int humidity = random(0,300);
+    ESP_LOGD("lorawan", "humidity= %d", humidity);
+    lpp.addRelativeHumidity(3, humidity);
 
-	// Buffer contruction
-	m_lora_app_data.port = LORAWAN_APP_PORT;
+    int temp = random(0,200);
+    ESP_LOGD("lorawan", "temp= %d", temp);
+    lpp.addTemperature(4, temp);
 
-	m_lora_app_data.buffer[i++] = '{';
-	m_lora_app_data.buffer[i++] = '"';
-	m_lora_app_data.buffer[i++] = 'i';
-	m_lora_app_data.buffer[i++] = '"';
-	m_lora_app_data.buffer[i++] = ':';
-	m_lora_app_data.buffer[i++] = ',';
-	m_lora_app_data.buffer[i++] = '"';
-	m_lora_app_data.buffer[i++] = 'n';
-	m_lora_app_data.buffer[i++] = '"';
-	m_lora_app_data.buffer[i++] = ':';
+    int pressure = random(0,2000);
+    ESP_LOGD("lorawan", "pressure= %f", pressure/100.0);
+    lpp.addBarometricPressure(7,(pressure/100.0));
 
-	m_lora_app_data.buffer[i++] = t100 + 0x30;
-	m_lora_app_data.buffer[i++] = t10 + 0x30;
-	m_lora_app_data.buffer[i++] = t1 + 0x30;
-	m_lora_app_data.buffer[i++] = '}';
-	m_lora_app_data.buffsize = i;
+    int batt_lvl = random(0,3.3);
+    ESP_LOGD("lorawan", "batt_lvl= %f",batt_lvl);
+    lpp.addAnalogInput(8, batt_lvl);
 
-    // TODO: Fix debug data output
-	//Serial.print("Data: ");
-	//Serial.println((char *)m_lora_app_data.buffer);
-	//Serial.print("Size: ");
-	//Serial.println(m_lora_app_data.buffsize);
-	//Serial.print("Port: ");
-	//Serial.println(m_lora_app_data.port);
+    // Buffer contruction
+    m_lora_app_data.port     = LORAWAN_APP_PORT;
+    m_lora_app_data.buffer   = lpp.getBuffer();
+    m_lora_app_data.buffsize = lpp.getSize();
+    lmh_error_status error   = lmh_send(&m_lora_app_data, LMH_UNCONFIRMED_MSG);
 
-	chipTemp += 1;
-	if (chipTemp >= 999)
-		chipTemp = 0;
+    ESP_LOGD("lorawan", "lmh_send size %d", lpp.getSize());
 
-	lmh_error_status error = lmh_send(&m_lora_app_data, LMH_UNCONFIRMED_MSG);
-	if (error == LMH_SUCCESS)
-	{
-	}
+    if (error == LMH_SUCCESS)
+    {
+        ESP_LOGD("lorawan", "lmh_send LMH_SUCCESS");
+    }
 
     ESP_LOGD("lorawan", "lmh_send result %d", error);
     // digitalWrite(LED_BUILTIN, LED_ON);

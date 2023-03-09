@@ -3,11 +3,12 @@ esphome:
   includes:
     - my_lorawan_component.h
     - lorawan_secrets.h
-
   libraries:
     - "SPI"
     - "Ticker"
     - "SX126x-Arduino"
+    - "ArduinoJson"
+    - "CayenneLPP"
 
 esp32:
   board: esp32-s3-devkitc-1
