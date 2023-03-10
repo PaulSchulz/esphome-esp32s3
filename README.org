@@ -3,7 +3,7 @@
 * Contents                                                                 :TOC:
 - [[#introduction][Introduction]]
   - [[#secrets][Secrets]]
-  - [[#issue-status][Issue Status]]
+  - [[#issues][Issues]]
 - [[#process][Process]]
   - [[#install-tools-and-configure-the-environment][Install Tools and Configure the Environment]]
   - [[#create-configuration-file-yaml][Create Configuration File (yaml)]]
@@ -56,10 +56,12 @@ separate file (secrets.yaml) which only has a template stored in this repository
 There is a separate file in use for LoRaWAN credentials (lorawan_secrets.h)
 which is being treated in a similar way.
 
-** Issue Status
-| Issue                       | Status  | Notes             |
-|-----------------------------+---------+-------------------|
-| Support in 'esphome wizard' | MISSING | Heltec V3 boards. |
+** Issues
+- [ONGOING] Unable to drive FastLED lights :: See: https://github.com/esphome/issues/issues/4079
+
+  Works on a different Esp32 board (Heltec Wifi Lora 32 (V2)). More testing required.
+  
+- [MISSING] Support in 'esphome wizard' :: This is for all of the Heltec V3 boards. 
 
 * Process
 See: https://esphome.io/guides/installing_esphome.html#linux
