@@ -15,7 +15,7 @@
 
 /**< Maximum number of events in the scheduler queue  */
 #define LORAWAN_APP_DATA_BUFF_SIZE 256 // Size of the data to be transmitted
-#define LORAWAN_APP_TX_DUTYCYCLE 5000 // Defines the application data transmission duty cycle. 30s, value in [ms]
+#define LORAWAN_APP_TX_DUTYCYCLE 30000 // Defines the application data transmission duty cycle. 30s, value in [ms]
 #define APP_TX_DUTYCYCLE_RND 1000 // Defines a random delay for application data transmission duty cycle. 1s, value in [ms]
 #define JOINREQ_NBTRIALS 3
 
@@ -92,7 +92,6 @@ public:
         hwConfig.USE_DIO2_ANT_SWITCH = true;	  // Example uses an CircuitRocks Alora RFM1262 which uses DIO2 pins as antenna control
         hwConfig.USE_DIO3_TCXO = true;			  // Example uses an CircuitRocks Alora RFM1262 which uses DIO3 to control oscillator voltage
         hwConfig.USE_DIO3_ANT_SWITCH = false;	  // Only Insight ISP4520 module uses DIO3 as antenna control
-
 
         ESP_LOGD("lorawan", "Configure LoRaWAN");
         uint32_t err_code = lora_hardware_init(hwConfig);
@@ -174,10 +173,9 @@ static void lorawan_rx_handler(lmh_app_data_t *app_data)
 	ESP_LOGD("lorawan", "LoRa Packet received on port %d, size:%d, rssi:%d, snr:%d",
              app_data->port, app_data->buffsize, app_data->rssi, app_data->snr);
 
-    // TODO: Fix debug output for rx packet
 	for (int i = 0; i < app_data->buffsize; i++)
 	{
-		//ESP_LOGD("lorawan", "%0X ", app_data->buffer[i]);
+		ESP_LOGD("lorawan", "%0X ", app_data->buffer[i]);
     }
 	// Serial.println("");
 

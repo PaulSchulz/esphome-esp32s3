@@ -256,8 +256,8 @@ void OnRxError(void)
             }
         }
 
-    unsigned long previousMillis = 0UL;
-    unsigned long interval = 10000UL;
+unsigned long previousMillis = 0UL;
+unsigned long interval = 10000UL;
 
 class MyCustomComponent : public Component {
 public:
@@ -354,7 +354,7 @@ public:
             bool cadResult = 0;
             OnCadDone(cadResult);
         }
-    }
+}
 
 
 };

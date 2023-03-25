@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 #include <FastLED.h>
-#define NUM_LEDS 10
+#define NUM_LEDS 120
 CRGB leds[NUM_LEDS];
 // void setup() { FastLED.addLeds<NEOPIXEL, 6>(leds, NUM_LEDS); }
 // void loop() {
@@ -28,10 +28,12 @@ namespace esphome {
         }
 
         unsigned long previousMillis = 0UL;
-        unsigned long interval = 10000UL;
-        unsigned long interval_flash = 1000UL;
+        unsigned long interval = 1000UL;
+        unsigned long interval_flash = 900UL;
         unsigned int  led_status = LOW;
         unsigned int  led_status_prev = LOW;
+        unsigned int  led = 0;
+        unsigned int  led_prev = 0;
 
         void GPIOBlink::loop() {
 
@@ -61,11 +63,15 @@ namespace esphome {
                 led_status_prev = led_status;
 
                 if(led_status == HIGH){
-                    leds[0] = 0xFF0000;
+                    leds[led] = 0x0000FF;
+                    leds[led_prev] = 0x000000;
                     FastLED.show();
+                    led_prev = led;
+                    led++;
+                    led = led % NUM_LEDS;
                 }
                 if(led_status == LOW){
-                    leds[0] = 0x0000FF;
+                    leds[led] = 0x000000;
                     FastLED.show();
                 }
             }

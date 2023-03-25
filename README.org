@@ -63,6 +63,11 @@ which is being treated in a similar way.
   
 - [MISSING] Support in 'esphome wizard' :: This is for all of the Heltec V3 boards. 
 
+- [ONGOING] Deep sleep for Heltec Board with LoRa V3 :: 
+
+  - Issue: https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues/6
+  - Code: https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues/6#issuecomment-1482825342
+  
 * Process
 See: https://esphome.io/guides/installing_esphome.html#linux
 
@@ -85,7 +90,7 @@ Setup the python environment
   source venv/bin/activate
 #+end_src
 
-Run the 'source venv/bin/activate' command to re-enter the environment.
+Run the *'source venv/bin/activate'* command to re-enter the environment.
 
 Install esphome with
 #+begin_src shell
