@@ -193,7 +193,7 @@ Files:
 - lorawan_secrets.h
   
 To build and install over a serial connection, edit 'lorawan_secrets.h' and add
-the devices cLoRaWAN credentials, then run the following to compile and install.
+the device's LoRaWAN credentials. Run the following to compile and install.
 #+begin_src shell
   esphome run --device /def/ttyUSB0 custom_lorawan.yaml
 #+end_src
