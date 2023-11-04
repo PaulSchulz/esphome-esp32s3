@@ -4,19 +4,21 @@
 - [[#introduction][Introduction]]
   - [[#secrets][Secrets]]
   - [[#issues][Issues]]
-- [[#process][Process]]
-  - [[#install-tools-and-configure-the-environment][Install Tools and Configure the Environment]]
-  - [[#create-configuration-file-yaml][Create Configuration File (yaml)]]
+- [[#installation-process][Installation Process]]
+  - [[#install-esphome-and-configure-the-environment][Install ESPHome and Configure the Environment]]
+  - [[#checkout-this-repository][Checkout this repository]]
+  - [[#create-a-configuration-file-yaml][Create a Configuration File (yaml)]]
   - [[#compile-image][Compile Image]]
   - [[#install-image][Install Image]]
   - [[#view-logs][View Logs]]
-- [[#development][Development]]
+  - [[#everything-together][Everything together]]
 - [[#useful-links][Useful Links]]
 - [[#examples][Examples]]
   - [[#simple-esphome-esp32s3yaml][simple-esphome-esp32s3.yaml]]
   - [[#heltecyaml][heltec.yaml]]
   - [[#customyaml][custom.yaml]]
   - [[#custom_lorayaml][custom_lora.yaml]]
+  - [[#lora_senderyaml--lora_receiveryaml][lora_sender.yaml / lora_receiver.yaml]]
   - [[#custom_lorawanyaml][custom_lorawan.yaml]]
 
 * Introduction
@@ -24,19 +26,23 @@
 The Heltec Wifi LoRa 32 V3 is based on the esp32s3 chip, with an additional LoRa
 radio chip.
 
-With an base ESPHome image installed on the board, which has wifi enabled, it is
-possible to do further upgrades using Over-the-Air (OTA) updates using the
-*esphome* tool, from the Linux command line.
-
 The notes here refer to a ESPHome programming system installed on a Ubuntu
 laptop (Version 22.04). It is also possible to use the ESPHome system installed
 as a plugin in a Home Assistant installation on RasberryPi (compilation is just
 little slower).
 
+*Note:* With an base ESPHome image installed on the board, which has wifi enabled,
+it is possible to do further upgrades using Over-the-Air (OTA) updates using the
+*esphome* tool.
+
 ** Secrets
-Passwords and Secrets (wifi and access point logins etc.) are stored in a
+Passwords and Secrets (wifi, api access etc.) are stored in a
 separate file (secrets.yaml) which only has a template stored in this repository.
 
+This file is not required if the "wifi", "api" and "ota" components are not
+used.
+
+Template for "secrets/"
 #+NAME: secret.yaml
 #+begin_src yaml
   # Your Wi-Fi SSID and password
@@ -53,7 +59,7 @@ separate file (secrets.yaml) which only has a template stored in this repository
   ota_password: ""
 #+end_src
 
-There is a separate file in use for LoRaWAN credentials (lorawan_secrets.h)
+There is a separate file in use for LoRaWAN credentials (secrets-lorawan.h)
 which is being treated in a similar way.
 
 ** Issues
@@ -68,16 +74,15 @@ which is being treated in a similar way.
   - Issue: https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues/6
   - Code: https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues/6#issuecomment-1482825342
   
-* Process
-See: https://esphome.io/guides/installing_esphome.html#linux
+* Installation Process
+The following the installation process for linux (Ubuntu). 
 
-** Install Tools and Configure the Environment
+
+
+** Install ESPHome and Configure the Environment
 *Note:* None of the following should be done with elevated privileges (eg, sudo)
 
-Checkout this repository
-#+begin_src shell
-    git clone https://github.com/PaulSchulz/esphome-esp32s3.git
-#+end_src
+See: https://esphome.io/guides/installing_esphome.html#linux
 
 Check that correct version of python3 is available. Works with 3.10.7.
 #+begin_src shell
@@ -109,8 +114,31 @@ correctly with the following.
   esphome version
 #+end_src
 
-** Create Configuration File (yaml)
+** Checkout this repository
+This can be done by cloning this Github repository, forking and cloning that, or
+downloading and extracting the code as a zip file from Github.
+
+To clone the Github repository on Linux, use:
+#+begin_src shell
+    git clone https://github.com/PaulSchulz/esphome-esp32s3.git
+#+end_src
+
+** Create a Configuration File (yaml)
+ESPHome is (mostly) driven through YAML (Yet Another Markup Language)
+configuration files, which make use of 'components' (both internal and supported
+by the project, and external, previously called custom components) to provide
+the desired functionality.
+
+At the end of the process, ESPHome will have compiled a binary image (program)
+based on your YAML file, installed (uploaded it) onto your ESP32 board, rebooted
+it, and begun to monitor and display the output (logs) over USB or Wifi.
+
 *** Configuration Wizard
+To get started, there is a configuration wizard which will create a simple
+yaml configuration file.
+
+To run it, use:
+
 #+begin_src shell
   esphome wizard basic.yaml
 #+end_src
@@ -119,6 +147,13 @@ correctly with the following.
 'esp32-s3-devkitc-1' arn't yet supported in the wizard.
 
 *** Manually Create Configuration
+YAML files are just text files, formatted in a particular structured way to
+represent hierarchies of lists (or arrays), maps (or dictionary, key and value
+pairs), multiline strings together with some additional application specific
+extensions (eg. !include and !secret)
+
+You can use your favorite text editor (you have one of those right?) to make
+changes and edits to your YAML files.
 
 ** Compile Image
 #+begin_src shell
@@ -126,6 +161,9 @@ correctly with the following.
 #+end_src
 
 ** Install Image
+If you have several ways of communicating with your ESP32 device, you will need
+to choose which method to use during the install process.
+
 Initial install via USB
 #+begin_src shell
   esphome upload --device /dev/ttyUSB0 heltec-wifi-lora-32-v3.yaml
@@ -139,12 +177,13 @@ connected with the following command:
   esphome logs --device /dev/ttyUSB0
 #+end_src
 
-* Development
-When creating the development environment as described above, the code for
-'esphome' (the development tool) and 'esptool' (the device programmer) are
-installed via pip in the 'venv/lib/python*' subdirectories.
+** Everything together
+ESPHome provide a quick way of doing everything for you (run), only stopping if
+there is an error.
 
-For custom development 
+#+begin_src shell
+  esphome run heltec-wifi-lora-32-v3.yaml
+#+end_src
 
 * Useful Links
 - ESPHome Customised Components :: https://esphome.io/custom/custom_component.html
@@ -182,6 +221,26 @@ To build and install over a serial connection.
 #+begin_src shell
   esphome run --device /def/ttyUSB0 custom_lora.yaml
 #+end_src
+
+** lora_sender.yaml / lora_receiver.yaml
+This pair of configurations can be used to create a pair of boards which use the
+LoRa radio to send a signal from the sender to the receiver.
+
+Files:
+- lora-sender.yaml
+- lora-receiver.yaml
+- component/lora/sender.h
+- component/lora/receiver.h
+  
+To build and install over a serial connection.
+#+begin_src shell
+  # Install sender
+  esphome run --device /def/ttyUSB0 lora-sender.yaml
+  # Install receiver
+  esphome run --device /def/ttyUSB0 lora-sender.yaml
+#+end_src
+
+
 
 ** custom_lorawan.yaml
 This components sets up a Heltec Wifi LoRa 32(V3) board as a device on a LoRaWAN
