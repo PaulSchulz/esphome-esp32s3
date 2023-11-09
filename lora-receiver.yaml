@@ -3,6 +3,7 @@ esphome:
   includes:
   #  - my_lora_component.h
     - components/lora/receiver.h
+    - components/lora/esphome_lora_version.h  
   libraries:
     - "SPI"
     - "Ticker"
@@ -18,16 +19,16 @@ logger:
 
 #wifi:
 #  networks:
-#  - ssid: open_energy
-#    password: CAFEF00D
+#  - ssid: wifi_network
+#    password: PASSWORD
     
 #ota:
-#  password: !secret ota_password
+#  password: OTA_PASSWORD
 
 # Enable Home Assistant API
 #api:
 #  encryption:
-#    key: !secret api_encryption_key
+#    key: API_ENCRYPTION_KEY
 
 #spi:
 #  clk_pin: GPIO9

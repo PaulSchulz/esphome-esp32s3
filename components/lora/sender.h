@@ -2,6 +2,8 @@
 // See: https://esphome.io/custom/custom_component.html
 #include "esphome.h"
 
+#include "esphome_lora_version.h"
+
 #include <SX126x-Arduino.h>
 #include <SPI.h>
 
@@ -85,10 +87,9 @@ public:
     int p_state = 0;
 
     void setup() override {
-        // You can also log messages
-        ESP_LOGD(TAG, "Setup Custom Timer (10s interval)");
-        ESP_LOGD(TAG, "Setup SPI LoRa");
+        ESP_LOGD(TAG, "ESPHOME_LORA_VERSION: %s", ESPHOME_LORA_VERSION);
 
+        ESP_LOGD(TAG, "Setup SPI LoRa");
         // Define the HW configuration between MCU and SX126x
         hwConfig.CHIP_TYPE = SX1262_CHIP;		  // Example uses an eByte E22 module with an SX1262
         hwConfig.PIN_LORA_RESET = PIN_LORA_RESET; // LORA RESET

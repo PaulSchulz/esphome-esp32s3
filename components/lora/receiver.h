@@ -1,7 +1,8 @@
 // Open Energy Receiver
 // See: https://esphome.io/custom/custom_component.html
-
 #include "esphome.h"
+
+#include "esphome_lora_version.h"
 
 #include <SX126x-Arduino.h>
 #include <SPI.h>
@@ -112,11 +113,11 @@ class MyCustomComponent : public Component {
 public:
 
     void setup() override {
+        ESP_LOGD(TAG, "ESPHOME_LORA_VERSION: %s", ESPHOME_LORA_VERSION);
+
         pinMode(GPIO5,OUTPUT);
         pinMode(GPIO6,OUTPUT);
 
-        // You can also log messages
-        ESP_LOGD(TAG, "Setup Custom Timer (10s interval)");
         ESP_LOGD(TAG, "Setup SPI LoRa");
 
         // Define the HW configuration between MCU and SX126x
@@ -182,7 +183,7 @@ public:
 
         unsigned long currentMillis = millis();
 
-        // Keep alive message
+        // Keep alive message, 1 sec tick
         if(currentMillis - previousMillis > interval)
             {
                 previousMillis = currentMillis;
