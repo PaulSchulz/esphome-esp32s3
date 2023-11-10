@@ -1,6 +1,7 @@
 #pragma once
 
 #include "esphome/core/component.h"
+// #include "esphome/components/spi/spi.h"
 // #include "esphome/components/sensor/sensor.h"
 
 namespace esphome {
@@ -14,5 +15,5 @@ class LoraSX126X : public Component {
 };
 
 
-}  // namespace empty_component
+}  // namespace lora_sx126x
 }  // namespace esphome

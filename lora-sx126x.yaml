@@ -1,13 +1,10 @@
 esphome:
   name: "lora-sx126x"
   includes:
-  #  - my_lora_component.h
-  #  - components/lora/sender.h
-  #  - components/lora/esphome_lora_version.h
   libraries:
-  #  - "SPI"
-  #  - "Ticker"
-  #  - "SX126x-Arduino"
+     - "SPI"
+     - "Ticker"
+     - "SX126x-Arduino"
 
 esp32:
   board: esp32-s3-devkitc-1
