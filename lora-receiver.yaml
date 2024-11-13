@@ -3,7 +3,7 @@ esphome:
   includes:
   #  - my_lora_component.h
     - components/lora/receiver.h
-    - components/lora/esphome_lora_version.h  
+    # - components/lora/esphome_lora_version.h  
   libraries:
     - "SPI"
     - "Ticker"
@@ -14,16 +14,19 @@ esp32:
   framework:
     type: arduino
 
-# Enable logging
-logger:
-
-#wifi:
-#  networks:
-#  - ssid: wifi_network
-#    password: PASSWORD
-    
-#ota:
-#  password: OTA_PASSWORD
+packages:
+  logger:     !include common/logger.yaml
+  wifi:       !include common/wifi.yaml
+  ota:        !include common/ota.yaml
+  api:        !include common/api.yaml
+  web_server: !include common/web_server.yaml
+  status:     !include common/status.yaml
+  
+#############################################################################
+#mqtt:
+#  broker: 10.1.1.44
+  # username: heltec-c7a8
+  # password: "c7a8"
 
 # Enable Home Assistant API
 #api:
