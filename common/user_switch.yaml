@@ -1,0 +1,4 @@
+switch:
+  - platform: gpio
+    pin: 0
+    name: "Pin 00 (User Switch)"

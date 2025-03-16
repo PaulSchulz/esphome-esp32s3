@@ -64,9 +64,9 @@ gpio_blink:
 #  - platform: status_led
 #    name: "Status LED"
 #    pin: GPIO35
-#- platform: fastled_clockless
-#  chipset: WS2812B
-#  pin: 7
-#  num_leds: 10
-#  rgb_order: GRB
-#  name: "RGB Light"
+#  - platform: fastled_clockless
+#    chipset: WS2812B
+#    pin: 8
+#    num_leds: 10
+#    rgb_order: GRB
+#    name: "RGB Light"

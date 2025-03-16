@@ -2,9 +2,13 @@ esphome:
   name: "heltec-wifi-lora-32-v3"
 
 esp32:
+#  board: heltec_wifi_kit_32_V3
+ # variant: esp32s3
   board: esp32-s3-devkitc-1
   framework:
     type: arduino
+#    version: 2.0.9
+#    platform_version: 6.3.0
 
 ##############################################################################
 #external_components:
@@ -14,18 +18,24 @@ esp32:
 
 # Enable logging
 logger:
+  hardware_uart: "UART0"
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
 
 ota:
+  platform: esphome
   password: !secret ota_password
 
 # Enable Home Assistant API
 api:
   encryption:
     key: !secret api_encryption_key
+
+captive_portal:
+web_server:
+  local: true
 
 i2c:
   - id: bus_a
@@ -35,12 +45,96 @@ i2c:
 #    sda: 41
 #    scl: 42
 
+globals:
+  - id: muon_cnt
+    type: int
+    initial_value: "1"
+  - id: background_cnt
+    type: int
+    initial_value: "1"
+
+font:
+# gfonts://family[@weight]
+#  - file: "gfonts://Roboto+Mono"
+  - file: "gfonts://Nova+Mono"
+    id: roboto_16
+    size: 16
+  - file: "gfonts://Roboto"
+    id: roboto_10
+    size: 10
+
 display:
   - platform: ssd1306_i2c
     model: "SSD1306 128x64"
     reset_pin: 21
     i2c_id: bus_a
     address: 0x3C
+    # auto_clear_enabled: false
     lambda: |-
-      it.fill(COLOR_ON);
-      it.fill(COLOR_OFF);
+      it.print(0,  2, id(roboto_10), "Muons");
+      it.printf(0, 10, id(roboto_16), "%08d %5.1f", id(muon_cnt), id(muon_event_rate).state);
+      
+      it.print(0, 32, id(roboto_10), "Background");
+      it.printf(0, 40, id(roboto_16), "%08d %5.1f", id(background_cnt), id(background_event_rate).state);
+
+script:
+  - id: trigger_muon
+    then:
+      - lambda: |-
+          // Add one to the global integer
+          id(muon_cnt) += 1;
+          // Force the sensor to publish a new state
+          //id(muon_event_rate).publish_state(id(muon_cnt));
+
+  - id: trigger_background
+    then:
+      - lambda: |-
+          // Add one to the global integer
+          id(background_cnt) += 1;
+          // Force the sensor to publish a new state
+          //id(background_event_rate).publish_state(id(background_cnt));
+
+sensor:
+  - platform: template
+    name: "Muon Counter"
+    id: muon_counter
+    # update_interval: never
+    update_interval: 1s
+    accuracy_decimals: 0
+    state_class: total_increasing
+    lambda: return id(muon_cnt);
+
+  - platform: pulse_meter
+    name: "Muon Event Rate"
+    id: muon_event_rate
+    pin: 
+      number: GPIO1
+      mode: input
+    on_value:
+      - script.execute:
+          id: trigger_muon
+    total:
+      name: Total Muons
+    timeout: 2s
+
+  - platform: template
+    name: "Background Counter"
+    id: background_counter
+    # update_interval: never
+    update_interval: 1s
+    accuracy_decimals: 0
+    state_class: total_increasing
+    lambda: return id(background_cnt);
+
+  - platform: pulse_meter
+    name: "Background Event Rate"
+    id: background_event_rate
+    pin: 
+      number: GPIO2
+      mode: input
+    on_value:
+      - script.execute:
+          id: trigger_background
+    total:
+      name: Total Background
+    timeout: 2s

@@ -1,6 +1,5 @@
 esphome:
   name: "lora-sx126x"
-  includes:
   libraries:
      - "SPI"
      - "Ticker"
@@ -10,6 +9,12 @@ esp32:
   board: esp32-s3-devkitc-1
   framework:
     type: arduino
+
+external_components:
+  - source:
+      type: local
+      path: esphome/components
+#    components: ["lora_sx126x"]
 
 # Enable logging
 logger:
@@ -45,11 +50,7 @@ logger:
 #    components:
 #      - id: my_custom_id
 
-external_components:
-  - source:
-      type: local
-      path: esphome/components
-
 lora_sx126x:
 
+# sensor:
 

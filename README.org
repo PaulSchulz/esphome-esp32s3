@@ -93,6 +93,7 @@ Setup the python environment
 #+begin_src shell
   python3 -m venv venv
   source venv/bin/activate
+  python -m ensurepip --upgrade
 #+end_src
 
 Run the *'source venv/bin/activate'* command to re-enter the environment.

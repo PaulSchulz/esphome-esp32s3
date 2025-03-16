@@ -3,7 +3,7 @@ import esphome.config_validation as cv
 from esphome.const import CONF_ID
 
 # CODEOWNERS = ["@paulschulz"]
-# AUTO_LOAD = []
+AUTO_LOAD = [ "sensor"]
 # MULTI_CONF = True
 
 DEPENDANCIES = ["spi"]
