@@ -23,6 +23,10 @@ esphome:
   # name: m5stamps3
   name: ${device_name}
   name_add_mac_suffix: true
+#  libraries:
+#    - WiFi
+#    - HTTPClient
+#    - WiFiClientSecure
   
 esp32:
   # board: m5stack-stamps3
@@ -50,8 +54,23 @@ packages:
 #      - components/pulse_meter.yaml
 
 external_components:
-  - source:
-      type: local
-      path: components/nem_price_sensor
-      
+#  - source:
+#      type: local
+#      path: components
+#    components: ["nem_price_sensor"]
+  - source: "./components"
+    components: [nem_price]
+
 ###################################################################################
+http_request:
+  verify_ssl: false
+
+nem_price:
+  url: "https://visualisations.aemo.com.au/aemo/apps/api/report/ELEC_NEM_SUMMARY"
+  update_interval: 60s
+
+sensor:
+#  - platform: nem_price
+#    name: "NEM Price SA1"
+#    url: "https://visualisations.aemo.com.au/aemo/apps/api/report/ELEC_NEM_SUMMARY"
+#    update_interval: 60s

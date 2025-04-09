@@ -1,5 +1,8 @@
 #include "nem_price_sensor.h"
 #include "esphome/core/log.h"
+#include "Arduino.h"
+#include <WiFi.h>            // Include the WiFi library first
+#include <WiFiClientSecure.h> // This provides WiFiClientSecure.h for HTTPS
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
@@ -19,13 +22,19 @@ namespace esphome {
                 DeserializationError error = deserializeJson(doc, payload);
 
                 if (!error) {
-                    if (doc.containsKey(this->json_key_)) {
-                        float value = doc[this->json_key_];
-                        ESP_LOGD(TAG, "Parsed value: %f", value);
+
+                    // Hardcoded path for now, or later make this configurable
+                    JsonVariant variant = doc["nem"]["REGIONS"]["SA1"]["PRICE"];
+
+                    if (!variant.isNull()) {
+                        float value = variant.as<float>();
+                        ESP_LOGD(TAG, "Parsed NEM SA1 Price: %f", value);
                         this->publish_state(value);
                     } else {
-                        ESP_LOGW(TAG, "JSON key '%s' not found", this->json_key_.c_str());
+                        ESP_LOGW(TAG, "Price key not found in JSON.");
                     }
+
+
                 } else {
                     ESP_LOGE(TAG, "Failed to parse JSON: %s", error.c_str());
                 }
