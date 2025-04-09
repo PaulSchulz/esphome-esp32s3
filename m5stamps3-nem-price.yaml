@@ -65,13 +65,19 @@ external_components:
 http_request:
   verify_ssl: false
 
-nem_price:
-  url: "https://visualisations.aemo.com.au/aemo/apps/api/report/ELEC_NEM_SUMMARY"
-  update_interval: 60s
-  region: SA1
-
 sensor:
+
+nem_price:
+   id: nem_price_sa1
+   region: "SA1"
+   url: "https://visualisations.aemo.com.au/aemo/apps/api/report/ELEC_NEM_SUMMARY"
+   update_interval: 60s
+
+#  name: NEM Sell Price
+#  url: "https://visualisations.aemo.com.au/aemo/apps/api/report/ELEC_NEM_SUMMARY"
+#  update_interval: 60s
+#  region: SA1
+
+#sensor:
 #  - platform: nem_price
-#    name: "NEM Price SA1"
-#    url: "https://visualisations.aemo.com.au/aemo/apps/api/report/ELEC_NEM_SUMMARY"
-#    update_interval: 60s
+
