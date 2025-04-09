@@ -68,6 +68,7 @@ http_request:
 nem_price:
   url: "https://visualisations.aemo.com.au/aemo/apps/api/report/ELEC_NEM_SUMMARY"
   update_interval: 60s
+  region: SA1
 
 sensor:
 #  - platform: nem_price
