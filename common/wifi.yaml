@@ -1,4 +1,10 @@
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
+ 
+# Allow provisioning Wi-Fi via serial
+#improv_serial:
 
+# In combination with the `ap` this allows the user
+# to provision wifi credentials to the device via WiFi AP.
+#captive_portal:

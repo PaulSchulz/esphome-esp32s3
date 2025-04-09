@@ -1,0 +1,57 @@
+---
+# Heom Pulse
+#
+# Read your electricity meter by means of the pulse LED on your
+# meter, useful if you do not have a serial port (P1).
+# Original: © Klaas Schoute
+# Adaptation: Paul Schulz
+
+substitutions:
+  device_name: m5stamps3-nem-price
+  friendly_name: M5StampS3 NEM Price
+  project_version: "1.0.0"
+  device_description: |
+    Device to obtain NEM Price from the Internet
+  
+  # Define the GPIO pins
+  pulse_pin: GPIO1
+  status_led: GPIO3
+  led_pin_red: GPIO9
+  led_pin_green: GPIO7
+
+esphome:
+  # name: m5stamps3
+  name: ${device_name}
+  name_add_mac_suffix: true
+  
+esp32:
+  # board: m5stack-stamps3
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+logger:
+
+packages:
+  # logger:     !include common/logger.yaml
+  wifi:       !include common/wifi.yaml
+  ota:        !include common/ota.yaml
+  api:        !include common/api.yaml
+  web_server: !include common/web_server.yaml
+  status:     !include common/status.yaml
+
+#  remote_package:
+#    url: https://github.com/klaasnicolaas/home-assistant-glow/
+#    ref: "4.2.3"
+#    files:
+#      - components/basis.yaml
+#      - components/updates.yaml
+#      - components/status_led.yaml
+#      - components/pulse_meter.yaml
+
+external_components:
+  - source:
+      type: local
+      path: components/nem_price_sensor
+      
+###################################################################################
